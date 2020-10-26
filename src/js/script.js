@@ -61,8 +61,9 @@
       thisProduct.getElements();
       thisProduct.initAccordion();
       thisProduct.initOrderForm();
+      thisProduct.initAmountWidget();
       thisProduct.processOrder();
-      console.log('new Product:', thisProduct);
+      //console.log('new Product:', thisProduct);
     }
     renderInMenu() {
       const thisProduct = this;
@@ -83,6 +84,7 @@
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
     }
     initAccordion() {
       const thisProduct = this;
@@ -95,14 +97,11 @@
         event.preventDefault();
         /* toggle active class on element of thisProduct */
         buttonTest.parentElement.classList.add('active');
-
-
         /* find all active products */
         const activeLinks = document.querySelectorAll('article.active');
         /* START LOOP: for each active product */
         for(let activeLink of activeLinks) {
-          console.log(activeLink+'activeLink');
-
+          //console.log(activeLink+'activeLink');
           /* START: if the active product isn't the element of thisProduct */
           if (activeLink!=thisProduct.element) {
             /* remove class active for the active product */
@@ -121,7 +120,6 @@
         event.preventDefault();
         thisProduct.processOrder();
       });
-
       for(let input of thisProduct.formInputs){
         input.addEventListener('change', function(){
           thisProduct.processOrder();
@@ -132,7 +130,14 @@
         event.preventDefault();
         thisProduct.processOrder();
       });
-      console.log('initOrderForm');
+      //console.log('initOrderForm');
+    }
+    initAmountWidget() {
+      const thisProduct = this;
+      thisProduct.amountWidget = new amountWidget(thisProduct.amountWidgetElem);
+      thisProduct.amountWidgetElem.addEventListener('updated', function(){
+        thisProduct.processOrder();
+      });
     }
     processOrder() {
       const thisProduct = this;
@@ -165,37 +170,80 @@
           }
           if(optionSelected) {
             const addImages =thisProduct.imageWrapper.querySelectorAll('img.'+paramId+'-'+optionId);
-
             for(let addImage of addImages)
-              addImage.classList.add('active');
+              addImage.classList.add(classNames.menuProduct.imageVisible);
             //  console.log('consolelog'+addImage)
           }
           else if(!optionSelected) {
             const addImages =thisProduct.imageWrapper.querySelectorAll('img.'+paramId+'-'+optionId);
-
             for(let addImage of addImages) {
-              addImage.classList.remove('active');
+              addImage.classList.remove(classNames.menuProduct.imageVisible);
             }
             // thisProduct.querySelector(paramId+'-'+optionId);
-
-
           }
-
           /* END LOOP: for each optionId in param.options */
         }
         /* END LOOP: for each paramId in thisProduct.data.params */
       }
       /* set the contents of thisProduct.priceElem to be the value of variable price */
+      /*multiply price by amount*/
+      price*= thisProduct.amountWidget.value;
       thisProduct.priceElem.innerHTML = price;
-
     }
   }
-
+  class amountWidget{
+    constructor(element){
+      const thisWidget = this;
+      thisWidget.getElements(element);
+      thisWidget.setValue(thisWidget.input.value);
+      thisWidget.initActions(thisWidget.input.value);
+      //thisWidget.announce();
+      //console.log('thisWidget.input.value:', thisWidget.input.value);
+      //console.log('AmountWidget:', thisWidget);
+      //console.log('AmountWidget:', element);
+    }
+    getElements(element){
+      const thisWidget = this;
+      thisWidget.element = element;
+      thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
+      thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
+      thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
+    }
+    setValue(value) {
+      const thisWidget = this;
+      const newValue = parseInt(value);
+      if (value >= settings.amountWidget.defaultMin && value <= settings.amountWidget.defaultMax){
+        //console.log('jestem w walidacji');
+        thisWidget.value = newValue;
+        thisWidget.announce();
+      }
+      thisWidget.input.value = thisWidget.value;
+    }
+    initActions() {
+      const thisWidget = this;
+      thisWidget.input.addEventListener('change', function(){
+        thisWidget.setValue(thisWidget.input.value);
+      });
+      thisWidget.linkDecrease.addEventListener('click', function(event){
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value-1);
+      });
+      thisWidget.linkIncrease.addEventListener('click', function(event){
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value+1);
+      });
+    }
+    announce(){
+      const thisWidget = this;
+      const event = new Event('updated');
+      thisWidget.element.dispatchEvent(event);
+    }
+  }
 
   const app = {
     initMenu: function() {
       const thisApp = this;
-      console.log('thisApp.data:', thisApp.data);
+      //console.log('thisApp.data:', thisApp.data);
 
       for (let productData in thisApp.data.products)
         new Product(productData, thisApp.data.products[productData]);
@@ -204,16 +252,15 @@
     },
     initData: function() {
       const thisApp = this;
-
       thisApp.data = dataSource;
     },
     init: function(){
       const thisApp = this;
-      console.log('*** App starting ***');
-      console.log('thisApp:', thisApp);
-      console.log('classNames:', classNames);
-      console.log('settings:', settings);
-      console.log('templates:', templates);
+      //console.log('*** App starting ***');
+      //console.log('thisApp:', thisApp);
+      //console.log('classNames:', classNames);
+      //console.log('settings:', settings);
+      //console.log('templates:', templates);
       thisApp.initData();
       thisApp.initMenu();
     },
