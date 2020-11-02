@@ -354,7 +354,13 @@
     sendOrder(){
       const thisCart = this;
       const url = settings.db.url + '/' + settings.db.order;
-      thisCart.payload_products = [];
+      thisCart.payloadProducts = [];
+
+
+      for (let product in thisCart.products){
+        thisCart.payloadProducts.push(thisCart.products[product].getDataProduct);
+      }
+
       const payload = {
         address: 'test',
         totalPrice: thisCart.totalPrice,
@@ -364,34 +370,8 @@
         subtotalPrice:thisCart.subtotalPrice,
         totalPrice1:thisCart.totalPrice,
         deliveryFee:thisCart.deliveryFee,
-        products: thisCart.payload_products,
+        products: thisCart.payloadProducts,
       };
-      console.log('thisCart product2', thisCart.products);
-      //thisCart.payload_products = {};
-      //  console.log('json'+JSON.stringify(thisCart.products));
-      for(let product in thisCart.products){
-        //console.log('999 '+product+'  '+thisCart.products[product].id);
-      /*  var param1='';
-        for (let param in thisCart.products[product].params){
-          param1 = param1 + thisCart.products[product].params[param];
-        }*/
-        //thisCart.payload_products.push(thisCart.products[product].id);
-        thisCart.payload_products.push(
-          'id: '+thisCart.products[product].id+';'
-        +'name: '+thisCart.products[product].name+';'
-        +'price: '+thisCart.products[product].price+';'
-        +'priceSingle: '+thisCart.products[product].priceSingle+';'
-        +'amount: '+thisCart.products[product].amount+';'
-        +'params: '+JSON.stringify(thisCart.products[product].params)+ ';');
-      }
-
-
-      //  payload_products.push(CartProduct.getData());
-      //console.log('produkcts '+thisCart.products[products]);
-      //  }
-      //thisCart.payload_products = CartProduct.getData();
-      //thisCart.payload_products.push(thisCart.products[products]);
-
 
       const options = {
         method: 'POST',
@@ -472,7 +452,6 @@
 
     }
     getData(){
-
       const thisCartProduct = this;
       thisCartProduct.getDataProduct = {};
       thisCartProduct.getDataProduct.id = thisCartProduct.id;
@@ -480,10 +459,8 @@
       thisCartProduct.getDataProduct.price = thisCartProduct.price;
       thisCartProduct.getDataProduct.priceSingle = thisCartProduct.priceSingle;
       thisCartProduct.getDataProduct.amount = thisCartProduct.amount;
-      //  for (let productData in thisCartProduct.getDataProduct)
-      //    console.log('for cardprodukt+'+thisCartProduct.getDataProduct[productData]);
+      thisCartProduct.getDataProduct.params = thisCartProduct.params;
       return thisCartProduct.getDataProduct;
-      //thisCartProduct.params =  JSON.parse(JSON.stringify(menuProduct.params));
     }
     getElements(element){
       const thisCartProduct = this;
