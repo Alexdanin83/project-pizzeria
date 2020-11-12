@@ -14,6 +14,7 @@ class BaseWidget{
   set value(value) {
     const thisWidget = this;
     const newValue = thisWidget.parseValue(value);
+    //if (newValue != thisWidget.correctValue && this.isValid(newValue)){
     if (newValue != thisWidget.correctValue && thisWidget.isValid(newValue)){
       //console.log('jestem w walidacji');
       thisWidget.correctValue = newValue;
@@ -36,6 +37,7 @@ class BaseWidget{
   renderValue(){
     const thisWidget = this;
     thisWidget.dom.wrapper.innerHTML = thisWidget.value;
+
   }
   announce(){
     const thisWidget = this;
