@@ -194,7 +194,7 @@ class Booking{
             flagBooking = true;
           }
         }
-        if (flagBooking == true) {alert('This table is bisy');} else {
+        if (flagBooking == true) {alert('Czas rezerwacji pokrywa się z następnym czasem');} else {
           table.classList.add(classNames.booking.tableBooked);
           // ręczne rezerwowanie
           table.classList.add(classNames.booking.tableHandBooked);
