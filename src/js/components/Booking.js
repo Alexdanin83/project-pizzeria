@@ -71,9 +71,11 @@ class Booking{
     const thisBooking = this;
     thisBooking.booked = {};
     for (let item of bookings){
-      thisBooking.makeBooked(item.date, item.hour, item.duration, item.table);
+      //thisBooking.makeBooked(item.date, item.hour, item.duration, item.table);
+      for( let i = 0; i <  item.table.length; i++ ){
+        thisBooking.makeBooked(item.date, item.hour, item.duration, item.table[i]);
+      }
     }
-
     for (let item of eventsCurrent){
       thisBooking.makeBooked(item.date, item.hour, item.duration, item.table);
     }
@@ -107,6 +109,7 @@ class Booking{
       }
       thisBooking.booked[date][hourBlock].push(table);
     }
+    console.log(thisBooking.booked);
   }
   render(wrapper){
     const thisBooking  = this;
@@ -179,26 +182,31 @@ class Booking{
           tableId = parseInt(tableId);
         }
         let startHour = thisBooking.hour;
-        for (let hourBlock = startHour; hourBlock < startHour + thisBooking.durationBooking; hourBlock += 0.5){
-          let allAvailable = false;
+        if ((startHour + thisBooking.durationBooking) <= 24) {
+          for (let hourBlock = startHour; hourBlock < startHour + thisBooking.durationBooking; hourBlock += 0.5){
+            let allAvailable = false;
 
-          if(
-            typeof thisBooking.booked[thisBooking.date] == 'undefined'
+            if(
+              typeof thisBooking.booked[thisBooking.date] == 'undefined'
              ||
              typeof thisBooking.booked[thisBooking.date][hourBlock] == 'undefined'
-          ){
-            allAvailable = true;
-          }
+            ){
+              allAvailable = true;
+            }
 
-          if (!allAvailable && thisBooking.booked[thisBooking.date][hourBlock].includes(tableId)) {
-            flagBooking = true;
+            if (!allAvailable && thisBooking.booked[thisBooking.date][hourBlock].includes(tableId)) {
+              flagBooking = true;
+            }
+          }
+          if (flagBooking == true) {alert('Czas rezerwacji stolika ' +tableId + ' pokrywa się z następną rezerwacją');} else {
+            table.classList.add(classNames.booking.tableBooked);
+            // ręczne rezerwowanie
+            table.classList.add(classNames.booking.tableHandBooked);
           }
         }
-        if (flagBooking == true) {alert('Czas rezerwacji pokrywa się z następnym czasem');} else {
-          table.classList.add(classNames.booking.tableBooked);
-          // ręczne rezerwowanie
-          table.classList.add(classNames.booking.tableHandBooked);
-        }
+        else
+        {alert('Restauracja jest czynna do godziny 24.00, zmniejsz ilość godzin dla stolika '+ tableId );}
+
         //console.log('flagBooking',flagBooking);
       });
     //  }
@@ -208,17 +216,20 @@ class Booking{
     const thisBooking = this;
     const url = settings.db.url +'/'+ settings.db.booking;
     let bookingState = false;
+    let tablesId =[];
     for(let table of thisBooking.dom.tables){
       if (table.classList.contains(classNames.booking.tableHandBooked))
       {
         var tableId = table.getAttribute(settings.booking.tableIdAttribute);
         //czy table ID jest liczbą
         if (!isNaN(tableId)){
-          tableId = parseInt(tableId);
+          //tableId = parseInt(tableId);
+          tablesId.push(parseInt(tableId));
         }
         bookingState = true;
       }
     }
+    console.log('tablesId',tablesId);
     if (bookingState == false) {
       alert('Prosimy o wybranie stolika');
       return;
@@ -228,7 +239,8 @@ class Booking{
     const payload = {
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
-      table: tableId,
+      //table: tableId,
+      table: tablesId,
       repeat: false,
       duration: thisBooking.hoursAmount.value,
       ppl: thisBooking.peopleAmount.value,

@@ -38,11 +38,23 @@ class AmountWidget extends BaseWidget{
     });
     thisWidget.dom.linkDecrease.addEventListener('click', function(event){
       event.preventDefault();
-      thisWidget.setValue(thisWidget.value-1);
+      if (thisWidget.dom.input.getAttribute('name') == 'hours') {
+        thisWidget.setValue(thisWidget.value-0.5);
+      }
+      else
+      {
+        thisWidget.setValue(thisWidget.value-1);
+      }
     });
     thisWidget.dom.linkIncrease.addEventListener('click', function(event){
       event.preventDefault();
-      thisWidget.setValue(thisWidget.value+1);
+      if (thisWidget.dom.input.getAttribute('name') == 'hours') {
+        thisWidget.setValue(thisWidget.value+0.5);
+      }
+      else
+      {
+        thisWidget.setValue(thisWidget.value+1);
+      }
     });
   }
 }

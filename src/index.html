@@ -5,9 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>node</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css?family=Lato:400,300i,700%7COswald:300,500,700&amp;subset=latin-ext" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
   <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
   <link rel="stylesheet" href="vendor/range-slider.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -21,12 +24,13 @@
           <h2 class="logo__subtitle">the best homemade Italian food</h2>
         </div>
         <div class="main-nav">
+          <a href="#main">Main</a>
           <a href="#order">Order</a>
           <a href="#booking">Booking</a>
         </div>
         <div id="cart" class="cart">
           <div class="cart__summary">
-            <span class="cart__total-number">5</span>
+            <span class="cart__total-number">0</span>
             <span class="cart__total-price">Total price: $<strong>0</strong></span>
             <i class="fas fa-chevron-down"></i>
             <i class="fas fa-shopping-cart cart__icon"></i>
@@ -60,14 +64,122 @@
       </div>
     </div>
   </header>
+<!--  <script>
+    document.addEventListener( 'DOMContentLoaded', function () {
+     new Splide( '#image-slider',{
 
+      'heightRatio': 0.5,
+      'autoplay' :   true,
+      'interval' : 3000,
+      'type':'loop',
+      'height': 250,
+     } ).mount();
+  } );
+  </script>-->
   <div id="pages">
+    <section id="main">
+      <div class="main-wrapper container">
+        <div class="main-menu">
+
+          <div class="main-menu-col">
+            <div class="main-menu-col-child">
+              <div class="main-menu-row">
+                <div class="main-menu-row-child">
+                  <div class="main-menu-row-sub-child-left">
+                    <div class="fadebox">
+                      <a href="#order" class="main-button-font">Order Online</a>
+                      <br>
+                      <h2 class="main-left-span">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Food is delitios your family</h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="main-menu-row-child">
+                  <div class="main-menu-row-sub-child-right">
+                    <div class="fadebox">
+                      <a href="#booking" class="main-button-font">Book a table</a>
+                      <br>
+                      <h2 class="main-left-span">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Food is delitios your family</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="main-menu-col-child">
+              <div class="main-menu-row-sub-child-menu">
+                <h2 class="main-button-font-down">Oppening hours</h2>
+                <h3 class="main-button-font-subdown">12:00-24:00</h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="main-menu-col">
+            <div id="image-slider" class="splide">
+              <div class="splide__track">
+                <ul class="splide__list">
+                  <li class="splide__slide">
+                    <img src="images/main/sl1.jpg" alt="Relevant textual alternative to the image">
+                  </li>
+                  <li class="splide__slide">
+                    <img src="images/main/sl2.jpg" alt="Relevant textual alternative to the image">
+                  </li>
+                  <li class="splide__slide">
+                    <img src="images/main/sl3.jpg" alt="Relevant textual alternative to the image">
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="main-menu-col">
+            <div class="main-menu-row-galery">
+              <div class="main-menu-row-child-galery">
+                <div class="main-menu-row-sub-child-galery">
+                  <i class="fas fa-rocket"></i>
+                </div>
+              </div>
+              <div class="main-menu-row-child-galery">
+                <div class="main-menu-row-sub-child-galery">
+                  <i class="fas fa-atom"></i>
+                </div>
+              </div>
+              <div class="main-menu-row-child-galery">
+                <div class="main-menu-row-sub-child-galery">
+                  <i class="fas fa-graduation-cap"></i>
+                </div>
+            </div>
+          </div>
+          <div class="main-menu-row-galery">
+            <div class="main-menu-row-child-galery">
+              <div class="main-menu-row-sub-child-galery">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+            </div>
+            <div class="main-menu-row-child-galery">
+              <div class="main-menu-row-sub-child-galery">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+            </div>
+            <div class="main-menu-row-child-galery">
+              <div class="main-menu-row-sub-child-galery">
+                <i class="fas fa-rocket"></i>
+              </div>
+            </div>
+          </div>
+          </div>
+          <div class="main-menu-col">
+            <a href="#" class="main-link">View more on Instagram</a>
+          </div>
+
+        </div>
+      </div>
+  </section>
     <section id="order">
       <div id="product-list" class="product-list container"></div>
     </section>
     <section id="booking">
       <div class="booking-wrapper container"></div>
     </section>
+
   </div>
 
   <script id="template-booking-widget" type="text/x-handlebars-template">
@@ -166,7 +278,6 @@
 
   <script id="template-menu-product" type="text/x-handlebars-template">
     <article class="product"> <!-- product -->
-
         <header class="product__header">
           <h3 class="product__name no-spacing">{{ name }} <i class="fas fa-chevron-down product__icon"></i></h3>
           <p class="product__base-price no-spacing">${{ price }}</p>
@@ -243,8 +354,15 @@
     </article> <!-- .product -->
   </script>
 
+  <script id="template-main-page" type="text/x-handlebars-template">
+
+      <p>Main page</p>
+    {{{ this }}}
+  </script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.0/handlebars.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="vendor/splide.min.js"></script>
   <script src="vendor/range-slider.min.js"></script>
   <script src="js/app.js" type="module"></script>
 </body>

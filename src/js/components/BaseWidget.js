@@ -27,7 +27,7 @@ class BaseWidget{
     thisWidget.value = value;
   }
   parseValue(value){
-    return parseInt(value);
+    return /*parseInt*/(value);
   }
 
   isValid(value){

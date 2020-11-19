@@ -2,9 +2,45 @@ import {settings, select, classNames} from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
+import Main from './components/Main.js';
 //import Utils from './components/utils.js';
 // tworzenie productu w menu
 const app = {
+  initBooking: function(){
+    const thisApp = this;
+    thisApp.bookingWidget = document.querySelector(select.containerOf.booking);
+    new Booking(thisApp.bookingWidget);
+  },
+  initMenu: function() {
+    const thisApp = this;
+    //console.log('thisApp.data:', thisApp.data);
+
+    for (let productData in thisApp.data.products)
+    //new Product(productData, thisApp.data.products[productData]);
+      new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
+
+    //new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
+    //const testProduct = new Product();
+    //console.log('testProduct:', testProduct);
+  },
+  initData: function() {
+    const thisApp = this;
+    thisApp.data = {};
+    const url = settings.db.url + '/' + settings.db.product;
+    //console.log(url);
+    fetch(url)
+      .then(function(rawResponse) {
+        return rawResponse.json();
+      })
+      .then(function(parsedResponse) {
+        //console.log('parsedResponse', parsedResponse);
+        /*save parsedResponse as thisApp.data.products*/
+        thisApp.data.products = parsedResponse;
+        /*execute initMenu method*/
+        thisApp.initMenu();
+      });
+    //console.log('thisApp.data', JSON.stringify(thisApp.data));
+  },
   initPages: function(){
     const thisApp = this;
     thisApp.pages = document.querySelector(select.containerOf.pages).children;
@@ -42,47 +78,12 @@ const app = {
     }
     /*add class 'active' to matching links, remove from non-matching*/
     for (let link of thisApp.navLinks){
-      link.classList.toggle(classNames.nav.active, link.getAttribute('href').id == '#' + pageId);
+      link.classList.toggle(classNames.nav.active,
+        link.getAttribute('href') == '#' + pageId);
     }
-
   },
-  initBooking: function(){
-    const thisApp = this;
-    thisApp.bookingWidget = document.querySelector(select.containerOf.booking);
-    new Booking(thisApp.bookingWidget);
 
 
-  },
-  initMenu: function() {
-    const thisApp = this;
-    //console.log('thisApp.data:', thisApp.data);
-
-    for (let productData in thisApp.data.products)
-    //new Product(productData, thisApp.data.products[productData]);
-      new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
-
-    //new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
-    //const testProduct = new Product();
-    //console.log('testProduct:', testProduct);
-  },
-  initData: function() {
-    const thisApp = this;
-    thisApp.data = {};
-    const url = settings.db.url + '/' + settings.db.product;
-    //console.log(url);
-    fetch(url)
-      .then(function(rawResponse) {
-        return rawResponse.json();
-      })
-      .then(function(parsedResponse) {
-        //console.log('parsedResponse', parsedResponse);
-        /*save parsedResponse as thisApp.data.products*/
-        thisApp.data.products = parsedResponse;
-        /*execute initMenu method*/
-        thisApp.initMenu();
-      });
-    //console.log('thisApp.data', JSON.stringify(thisApp.data));
-  },
   initCart: function(){
     const thisApp = this;
     const cartElem = document.querySelector(select.containerOf.cart);
@@ -94,6 +95,11 @@ const app = {
 
     });
   },
+  initMainSlider: function(){
+    const thisApp = this;
+    const newElemSlider = document.querySelector(select.containerOf.mainSlider);
+    thisApp.newSlider = new Main(newElemSlider);
+  },
   init: function(){
     const thisApp = this;
     //console.log('*** App starting ***');
@@ -101,12 +107,13 @@ const app = {
     //console.log('classNames:', classNames);
     //console.log('settings:', settings);
     //console.log('templates:', templates);
-    thisApp.initPages();
     thisApp.initData();
     //thisApp.initMenu();
     thisApp.initCart();
     //console.log('cart:', thisApp.cart);
     thisApp.initBooking();
+    thisApp.initMainSlider();
+    thisApp.initPages();
 
   },
 };

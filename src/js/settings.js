@@ -5,12 +5,15 @@ export const select = {
     menuProduct: '#template-menu-product',
     cartProduct: '#template-cart-product',
     bookingWidget: '#template-booking-widget',
+    mainPage: '#template-main-page',
   },
   containerOf: {
     menu: '#product-list',
     cart: '#cart',
     pages: '#pages',
     booking: '.booking-wrapper',
+    mainPage: '.main-wrapper',
+    mainSlider: '#image-slider',
   },
   all: {
     menuProducts: '#product-list > .product',
@@ -98,7 +101,7 @@ export const settings = {
   },
   amountWidget: {
     defaultValue: 1,
-    defaultMin: 1,
+    defaultMin: 0.5,
     defaultMax: 9,
   },
   datePicker: {
@@ -127,4 +130,5 @@ export const templates = {
   menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
   cartProduct: Handlebars.compile(document.querySelector(select.templateOf.cartProduct).innerHTML),
   bookingWidget: Handlebars.compile(document.querySelector(select.templateOf.bookingWidget).innerHTML),
+  //mainPage: Handlebars.compile(document.querySelector(select.templateOf.mainPage).innerHTML),
 };
