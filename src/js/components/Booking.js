@@ -109,7 +109,7 @@ class Booking{
       }
       thisBooking.booked[date][hourBlock].push(table);
     }
-    console.log(thisBooking.booked);
+    //console.log(thisBooking.booked);
   }
   render(wrapper){
     const thisBooking  = this;

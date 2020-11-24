@@ -23,6 +23,31 @@ const app = {
     //const testProduct = new Product();
     //console.log('testProduct:', testProduct);
   },
+  initMainMenu: function(){
+    const thisApp = this;
+    const buttonBooking = document.querySelector('.fadebox a[href="#booking"]');
+    const buttonOrder = document.querySelector('.fadebox a[href="#order"]');
+    buttonBooking.addEventListener('click', function(){
+      /* prevent default action for event */
+      event.preventDefault();
+      thisApp.activatePage('booking');
+      /*get page id from href attribute*/
+      const id = buttonBooking.getAttribute('href').replace('#','');
+      /*run thisApp.attribute with that id*/
+      /*change URL hash*/
+      window.location.hash = '#/' + id;
+    });
+    buttonOrder.addEventListener('click', function(){
+      /* prevent default action for event */
+      event.preventDefault();
+      thisApp.activatePage('order');
+      const id = buttonOrder.getAttribute('href').replace('#','');
+      /*run thisApp.attribute with that id*/
+      /*change URL hash*/
+      window.location.hash = '#/' + id;
+    });
+  },
+
   initData: function() {
     const thisApp = this;
     thisApp.data = {};
@@ -54,7 +79,7 @@ const app = {
         break;
       }
     }
-
+    //console.log('pageMachingHash',pageMachingHash);
     thisApp.activatePage(pageMachingHash);
 
     for (let link of thisApp.navLinks){
@@ -107,6 +132,7 @@ const app = {
     //console.log('classNames:', classNames);
     //console.log('settings:', settings);
     //console.log('templates:', templates);
+    thisApp.initMainMenu();
     thisApp.initData();
     //thisApp.initMenu();
     thisApp.initCart();

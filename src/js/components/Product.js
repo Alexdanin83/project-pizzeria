@@ -3,7 +3,7 @@ import utils from '../utils.js';
 import amountWidget from './AmountWidget.js';
 class Product {
   constructor(id, data) {
-    console.log('id'+id+'data '+data);
+    //console.log('id'+id+'data '+data);
     const thisProduct = this;
     thisProduct.id = id;
     thisProduct.data = data;
@@ -22,7 +22,7 @@ class Product {
     /*create element usi ng utils.createElementFromHTML*/
     /*thisProduct.element - bieżący element*/
     thisProduct.element = utils.createDOMFromHTML(generateHTML);
-    console.log('thisProduct.element '+JSON.stringify(thisProduct.element));
+    //console.log('thisProduct.element '+JSON.stringify(thisProduct.element));
     /*find menu container*//*Wstawiamy w product list szablon*/
     const menuContainer = document.querySelector(select.containerOf.menu);
     //add element to menu *//
@@ -150,7 +150,7 @@ class Product {
     /* set the contents of thisProduct.priceElem to be the value of variable price */
     //hisProduct.priceElem.innerHTML = price;
     thisProduct.priceElem.innerHTML = thisProduct.price;
-    console.log(thisProduct.params);
+    //console.log(thisProduct.params);
 
   }
   initAmountWidget() {

@@ -8,7 +8,7 @@ class Cart{
     thisCart.getElements(element);
     thisCart.deliveryFee = settings.cart.defaultDeliveryFee;
     thisCart.initActions();
-    console.log('new Cart1', thisCart);
+    //console.log('new Cart1', thisCart);
   }
   getElements(element) {
     const thisCart = this;
